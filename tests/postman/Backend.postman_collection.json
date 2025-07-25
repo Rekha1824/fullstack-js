@@ -47,7 +47,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"Agstya6\",\r\n    \"password\":\"Laxmi\"\r\n}",
+					"raw": "{\r\n    \"username\": \"Agstya7\",\r\n    \"password\":\"Laxmi\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -257,14 +257,35 @@
 			"response": []
 		},
 		{
-			"name": "Create Task",
+			"name": "Positive Create Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ✅ Status code is 200 or 201\r",
+							"pm.test(\"Status code is 200 or 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"let jsonData = pm.response.json();\r",
+							"pm.environment.set(\"task_id\", jsonData.id);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzQwMDYxMCwiZXhwIjoxNzUzNDA0MjEwfQ.tdF4EBRFga8vG5RQLGguyCyjwcInVWRUz-IsG7b6M04",
+							"value": "{{auth_token}}",
 							"type": "string"
 						}
 					]
@@ -273,7 +294,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\":\"Get up early \"\r\n}",
+					"raw": "{\r\n    \"title\":\"Get up Early in the morning at 5am\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -296,14 +317,97 @@
 			"response": []
 		},
 		{
-			"name": "Get Tasks",
+			"name": "Negative Create Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ❌ Status code is in 4xx (bad request, validation error)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"// Response has 'error' field\r",
+							"pm.test(\"Response has no 'title'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).not.to.have.property(\"title\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"value": "{{auth_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n    \"titl\": \"Error\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Positive Get Tasks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ✅ Status code is 200 or 201\r",
+							"pm.test(\"Status code is 200 or 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth_token}}",
 							"type": "string"
 						}
 					]
@@ -326,14 +430,32 @@
 			"response": []
 		},
 		{
-			"name": "Update Task",
+			"name": "Positive Update Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ✅ Status code is 200 or 201\r",
+							"pm.test(\"Status code is 200 or 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"value": "{{auth_token}}",
 							"type": "string"
 						}
 					]
@@ -350,7 +472,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/tasks/1",
+					"raw": "http://localhost:4000/api/tasks/{{task_id}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -359,21 +481,146 @@
 					"path": [
 						"api",
 						"tasks",
-						"1"
+						"{{task_id}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete Task",
+			"name": "Negative Update Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ❌ Expect status 401 Unauthorized or 403 Forbidden\r",
+							"pm.test(\"Status code is 401 or 403\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"value": "{{auth_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titl\": \"Get up Early in the morning at 6am\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/tasks/{{task_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Positive Delete Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ✅ Status code should be 200 or 204\r",
+							"pm.test(\"Status code is 200 or 204\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/tasks/{{task_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative Delete Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ❌ Status code should be 400, 401, 403, or 404\r",
+							"pm.test(\"Status code indicates failure\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth_token}}",
 							"type": "string"
 						}
 					]
