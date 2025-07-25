@@ -1,0 +1,400 @@
+{
+	"info": {
+		"_postman_id": "ac946068-e5b4-4e42-a62c-7397b1901c24",
+		"name": "Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47035268"
+	},
+	"item": [
+		{
+			"name": "Positive Register Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Status code is 200 (OK) or 201 (Created)\r",
+							"pm.test(\"Status code is 200 or 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"\r",
+							"// Response has 'message' and 'userId'\r",
+							"pm.test(\"Response has 'message' and 'userId'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"message\", \"User created\");\r",
+							"    pm.expect(jsonData).to.have.property(\"userId\");\r",
+							"    pm.expect(jsonData.userId).to.be.a(\"number\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Agstya6\",\r\n    \"password\":\"Laxmi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative Register Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Status code is 4xx (Client Error)\r",
+							"pm.test(\"Status code is 400 or 409\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([400, 409]);\r",
+							"});\r",
+							"\r",
+							"// Response has 'error' field\r",
+							"pm.test(\"Response has 'error' message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"message\");\r",
+							"    pm.expect(jsonData.message).to.be.a(\"string\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Agstya5\",\r\n    \"password\":\"Laxmi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Positive login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ✅ Status code is 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"// ✅ Response contains a token\r",
+							"pm.test(\"Response contains a token\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"token\");\r",
+							"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+							"\r",
+							"    // Check JWT format\r",
+							"    const tokenParts = jsonData.token.split('.');\r",
+							"    pm.expect(tokenParts.length).to.eql(3);\r",
+							"\r",
+							"    tokenParts.forEach(function (part) {\r",
+							"        pm.expect(part).to.match(/^[A-Za-z0-9\\-_]+$/);\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"// ✅ Save token to environment variable for future use\r",
+							"let jsonData = pm.response.json();\r",
+							"pm.environment.set(\"auth_token\", jsonData.token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"durga\",\r\n    \"password\":\"Akhi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negative login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ❌ Status code is 401 or 403\r",
+							"pm.test(\"Status code is 500 or 403\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([500, 403]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"durga\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzQwMDYxMCwiZXhwIjoxNzUzNDA0MjEwfQ.tdF4EBRFga8vG5RQLGguyCyjwcInVWRUz-IsG7b6M04",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Get up early \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tasks",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Get up Early in the morning at 6am\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/tasks/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tasks",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MzM5ODg4NywiZXhwIjoxNzUzNDAyNDg3fQ.fwfp2z-V9wB-pSvFSaaTG3P3y233ad6F6oASmXQxgTc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/tasks/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tasks",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
