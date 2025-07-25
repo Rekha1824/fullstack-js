@@ -32,4 +32,14 @@ TBD
 
 ## Testing Backend using Postman
 
-TBD
+Postman collection is available under tests/ directory.
+
+To run the postman tests, follow the below steps
+
+- Install newman `npm i -g newman`
+- Navigate to tests/postman folder
+- run the command `newman run Backend.postman_collection.json`
+
+
+
+

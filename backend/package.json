@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "newman-reporter-html": "^1.0.5",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7"
   }

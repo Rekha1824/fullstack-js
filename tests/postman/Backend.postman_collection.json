@@ -110,7 +110,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"Agstya5\",\r\n    \"password\":\"Laxmi\"\r\n}",
+					"raw": "{\r\n    \"username\": \"Jhon\",\r\n    \"password\":\"Mary@2025\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -180,7 +180,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"durga\",\r\n    \"password\":\"Akhi\"\r\n}",
+					"raw": "{\r\n    \"username\": \"Jhon\",\r\n    \"password\":\"Mary@2025\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -233,7 +233,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"durga\"\r\n\r\n}",
+					"raw": "{\r\n    \"username\": \"Jhon\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
